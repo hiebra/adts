@@ -43,8 +43,8 @@ jobs:
             for changed_file in $2; do
               parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
               cd $parent_dir
-              pwd
-              # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
+              wget http://agencia-tributaria.github.io/resource_type/pom.xml
+              mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT"
             done
           }
           if test -z "${{ steps.files.outputs.added }}"; then
