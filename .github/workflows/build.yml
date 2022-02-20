@@ -28,7 +28,9 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
+          echo "<source-code>"
           cat --number $(readlink -f $0)
+          echo "</source-code>"
           if test -z "${{ steps.files.outputs.removed }}"; then
             echo "No files removed (OK)"
           else
