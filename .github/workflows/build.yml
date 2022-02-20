@@ -38,6 +38,14 @@ jobs:
           else
             exit 1
           fi
+          build () {
+            echo "type of change: " $1
+            for changed_file in $2; do
+              parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
+              echo "folder: " $parent_dir
+              # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
+            done
+          }
           if test -z "${{ steps.files.outputs.added }}"; then
             echo "test 3.1"
             echo "No files added"
@@ -50,11 +58,3 @@ jobs:
           else
             build "modified" ${{ steps.files.outputs.modified }}
           fi
-          build () {
-            echo "type of change: " $1
-            for changed_file in $2; do
-              parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
-              echo "folder: " $parent_dir
-              # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
-            done
-          }
