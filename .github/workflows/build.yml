@@ -4,11 +4,17 @@ on:
       - '**/resource_type.xml'
       - '.github/workflows/build.yml'
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
   build:
+    needs: checkout
     permissions:
       packages: write
     runs-on: ubuntu-latest
     steps:
+      - run: tree
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
