@@ -28,6 +28,10 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
+          if test -z "${{ steps.files.outputs.modified }}" 
+          then
+              exit 1
+          fi
           for changed_file in ${{ steps.files.outputs.all }}; do
             parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
             echo "folder: " $parent_dir
