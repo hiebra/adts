@@ -27,10 +27,8 @@ jobs:
             }]
       - id: files
         uses: jitterbit/get-changed-files@v1
-      - env:
-          ALL: ${{ steps.files.outputs.all }}
-        run: |
-          for changed_file in $ALL; do
+      - run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
             parent_dir="$(dirname -- "$(readlink -f -- "$changed_name")")"
             echo "folder: " $parent_dir
             # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
