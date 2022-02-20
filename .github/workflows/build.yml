@@ -28,6 +28,11 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
+          if test -z "${{ steps.files.outputs.modified }}"; then
+            echo "No files modified"
+          else
+            exit 1
+          fi
           if test -z "${{ steps.files.outputs.removed }}"; then
             echo "No files removed (OK)"
           else
