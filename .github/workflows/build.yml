@@ -28,12 +28,33 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
-          if test -z "${{ steps.files.outputs.modified }}" 
-          then
-              exit 1
+          if test -z "${{ steps.files.outputs.removed }}"; then
+            echo "No files removed (OK)"
+          else
+            exit 1
           fi
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
-            echo "folder: " $parent_dir
-            # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
-          done
+          if test -z "${{ steps.files.outputs.renamed }}"; then
+            echo "No files renamed (OK)"
+          else
+            exit 1
+          fi
+          added = ${{ steps.files.outputs.added }}
+          if test -z "$added"; then
+            echo "No files added"
+          else
+            build("added", $added)
+          fi
+          modified = ${{ steps.files.outputs.modified }}
+          if test -z "$modified"; then
+            echo "No files modified"
+          else
+            build("modified", $modified)
+          fi
+          build () {
+            echo "type of change: " $1
+            for changed_file in $2; do
+              parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
+              echo "folder: " $parent_dir
+              # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
+            done
+          }
