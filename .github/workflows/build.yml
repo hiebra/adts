@@ -32,6 +32,6 @@ jobs:
         run: |
           for changed_file in $ALL; do
             parent_dir="$(dirname -- "$(readlink -f -- "$changed_name")")"
-            echo $parent_dir
+            echo "folder: " $parent_dir
             # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
           done
