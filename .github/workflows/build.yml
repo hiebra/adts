@@ -29,7 +29,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
-            parent_dir="$(dirname -- "$(realpath -- "$changed_name")")"
+            parent_dir="$(dirname -- "$(readlink -f -- "$changed_name")")"
             echo $parent_dir
             # mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT ${changed_file}."
           done
