@@ -39,7 +39,7 @@ jobs:
             exit 1
           fi
           echo "test 1"
-          added = "${{ steps.files.outputs.added }}"
+          added=${{ steps.files.outputs.added }}
           echo "test 2"
           if test -z "$added"; then
             echo "test 3.1"
@@ -48,7 +48,7 @@ jobs:
             echo "test 3.2"
             build("added", $added)
           fi
-          modified = ${{ steps.files.outputs.modified }}
+          modified=${{ steps.files.outputs.modified }}
           if test -z "$modified"; then
             echo "No files modified"
           else
