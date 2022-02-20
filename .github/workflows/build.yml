@@ -28,14 +28,7 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
-          CURDIR=`/bin/pwd`
-          BASEDIR=$(dirname $0)
-          ABSPATH=$(readlink -f $0)
-          ABSDIR=$(dirname $ABSPATH)
-          echo "CURDIR is $CURDIR"
-          echo "BASEDIR is $BASEDIR"
-          echo "ABSPATH is $ABSPATH"
-          echo "ABSDIR is $ABSDIR"
+          cat --number $(readlink -f $0)
           if test -z "${{ steps.files.outputs.removed }}"; then
             echo "No files removed (OK)"
           else
