@@ -39,20 +39,18 @@ jobs:
             exit 1
           fi
           echo "test 1"
-          added="${{ steps.files.outputs.added }}"
           echo "test 2"
-          if test -z $added; then
+          if test -z "${{ steps.files.outputs.added }}"; then
             echo "test 3.1"
             echo "No files added"
           else
             echo "test 3.2"
-            build("added", $added)
+            build("added", ${{ steps.files.outputs.added }})
           fi
-          modified=${{ steps.files.outputs.modified }}
-          if test -z $modified; then
+          if test -z "${{ steps.files.outputs.modified }}"; then
             echo "No files modified"
           else
-            build("modified", $modified)
+            build("modified", ${{ steps.files.outputs.modified }})
           fi
           build () {
             echo "type of change: " $1
