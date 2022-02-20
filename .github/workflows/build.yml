@@ -31,7 +31,8 @@ jobs:
             }]
       - id: files
         uses: jitterbit/get-changed-files@v1
-      - run: |
+      - name: main
+        run: |
           echo "<source-code>"
           cat --number $(readlink -f $0)
           echo "</source-code>"
