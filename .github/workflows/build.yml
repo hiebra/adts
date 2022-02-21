@@ -67,5 +67,8 @@ jobs:
           else
             build "modified" ${{ steps.files.outputs.modified }}
           fi
-          cat adts-hello/src/main/java/es/aeat/adts/test.xml
+          cd adts-hello/src/main/java/es/aeat/adts
+          pwd
+          echo "Hello, World!"
+          cat test.xml
           tree
