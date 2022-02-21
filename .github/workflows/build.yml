@@ -52,7 +52,7 @@ jobs:
               parent_dir="$(dirname -- "$(readlink -f -- "$changed_file")")"
               cd $parent_dir
               wget http://agencia-tributaria.github.io/resource_type/pom.xml
-              wget http://agencia-tributaria.github.io/resource_type/org.apache.maven-archetype-plugin.input.xml
+              wget http://agencia-tributaria.github.io/resource_type/org.apache.maven-archetype-plugin.input.xml 
               cat pom.xml
               mvn archetype:generate --batch-mode --update-snapshots -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=agencia-tributaria -DgroupIdPat=${{ secrets.GITHUB_TOKEN }} -DartifactId=adts-hello -Dversion=1.0-SNAPSHOT -Dpackage=es.aeat.adts -Dclass=Hello
             done
