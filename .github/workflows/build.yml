@@ -70,5 +70,6 @@ jobs:
           cd adts-hello/src/main/java/es/aeat/adts
           pwd
           echo "Hello, World!"
-          cat test.xml
+          cat --number Hello.java
+          cat --number test.xml
           tree
