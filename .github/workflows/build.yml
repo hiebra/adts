@@ -21,6 +21,7 @@ jobs:
             ${{ runner.os }}-maven-
       - uses: s4u/maven-settings-action@v2.5.0
         with:
+          sonatypeSnapshots: true
           servers: |
             [{
               "id": "softalks",
