@@ -20,34 +20,48 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          servers: |
+            [{
+              "id": "softalks",
+              "username": "${{ secrets.GITHUB_TOKEN }}",
+              "password": "${{ secrets.GITHUB_TOKEN }}" 
+            }, {
+              "id": "archetype",
+              "username": "${{ secrets.GITHUB_TOKEN }}",
+              "password": "${{ secrets.GITHUB_TOKEN }}"
+            }]
           repositories: |
-            [
-              {
-                "id": "central",
-                "name": "Maven Central",
-                "url": "https://repo1.maven.org/maven2",
-                "releases": {
-                  "enabled": "true"
-                },
-                "snapshots": {
-                  "enabled": "false"
-                }
+            [{
+              "id": "archetype",
+              "url": "https://maven.pkg.github.com/agencia-tributaria/entidad",
+              "releases": {
+                "enabled": false
+              }, 
+              "snapshots": {
+                "enabled": true
               }
-        ]
-      #
-      # - uses: s4u/maven-settings-action@v2.5.0
-      #  with:
-      #    apacheSnapshots: true
-      #    servers: |
-      #      [{
-      #        "id": "softalks",
-      #        "username": "${{ secrets.GITHUB_TOKEN }}",
-      #        "password": "${{ secrets.GITHUB_TOKEN }}" 
-      #      }, {
-      #        "id": "archetype",
-      #        "username": "${{ secrets.GITHUB_TOKEN }}",
-      #        "password": "${{ secrets.GITHUB_TOKEN }}"
-      #      }]
+            }]
+          plugin_repositories: |
+            [{
+              "id": "softalks",
+              "url": "https://maven.pkg.github.com/softalks/maven-archetype",
+              "releases": {
+                "enabled": false
+              }, 
+              "snapshots": {
+                "enabled": true
+              }
+            }, {
+              "id": "apache.snapshots",
+              "url": "https://repository.apache.org/snapshots/",
+              "releases": {
+                "enabled": false
+                }, 
+                "snapshots": {
+                  "enabled": true
+                }
+            }]
       - id: files
         uses: jitterbit/get-changed-files@v1
       - name: main
@@ -57,8 +71,8 @@ jobs:
           build () {
             echo "change: " $1
             for changed in $2; do
-              parent_dir="$(dirname -- "$(readlink -f -- "$changed")")"
-              cd $parent_dir
+              parent="$(dirname -- "$(readlink -f -- "$changed")")"
+              cd $parent
               wget http://agencia-tributaria.github.io/resource_type/org.apache.maven-archetype-plugin.input.xml 
               if [ ! -d .mvn ]; then
                 mkdir .mvn
