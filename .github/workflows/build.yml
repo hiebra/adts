@@ -1,7 +1,8 @@
 on:
   push:
     paths:
-      - '**/resource_type.xml'
+      - '**/collection.xml'
+      - '**/resource.xml'
       - '.github/workflows/build.yml'
 jobs:
   build:
