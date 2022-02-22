@@ -4,6 +4,7 @@ on:
       - '**/collection.xml'
       - '**/resource.xml'
       - '.github/workflows/build.yml'
+  workflow_dispatch:
 jobs:
   build:
     permissions:
