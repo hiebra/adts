@@ -43,8 +43,11 @@ jobs:
               parent_dir="$(dirname -- "$(readlink -f -- "$changed")")"
               cd $parent_dir
               wget http://agencia-tributaria.github.io/resource_type/org.apache.maven-archetype-plugin.input.xml 
-              echo "-DarchetypeCatalog=local -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT" > .mvn/jvm.config
-              echo "--batch-mode --update-snapshots" > .mvn/maven.config
+              if [ ! -d .mvn ]; then
+                mkdir .mvn
+                echo "-DarchetypeCatalog=local -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT" > .mvn/jvm.config
+                echo "--batch-mode --update-snapshots" > .mvn/maven.config
+              fi
               mvn org.apache.maven.plugins:maven-archetype-plugin:3.2.2-SNAPSHOT:generate -Dclass=Hello -DartifactId=adts-hello -Dpackage=es.aeat.adts -DgroupId=agencia-tributaria -DgroupIdPat=${{ secrets.GITHUB_TOKEN }}
             done
           }
