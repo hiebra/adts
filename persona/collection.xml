@@ -1,2 +1,4 @@
-<resource_type xmlns="http://wadl.dev.java.com/2009/02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.w3.org/Submission/wadl/wadl.xsd">
+<resource_type xmlns="http://wadl.dev.java.net/2009/02"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://wadl.dev.java.net/2009/02 https://www.w3.org/Submission/wadl/wadl.xsd">
 </resource_type>
