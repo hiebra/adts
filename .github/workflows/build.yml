@@ -69,7 +69,7 @@ jobs:
           if test -z "${{ steps.files.outputs.removed }}"; then echo "No files removed (OK)"; else exit 1001; fi
           if test -z "${{ steps.files.outputs.renamed }}"; then echo "No files renamed (OK)"; else exit 1002; fi
           build () {
-            echo "change: " $1
+            echo "action: " $1
             for changed in $2; do
               parent="$(dirname -- "$(readlink -f -- "$changed")")"
               cd $parent
@@ -79,7 +79,11 @@ jobs:
                 echo "-DarchetypeCatalog=local -DarchetypeGroupId=agencia-tributaria -DarchetypeArtifactId=entidad -DarchetypeVersion=1.0-SNAPSHOT" > .mvn/jvm.config
                 echo "--batch-mode --update-snapshots" > .mvn/maven.config
               fi
-              mvn org.apache.maven.plugins:maven-archetype-plugin:3.2.2-SNAPSHOT:generate -Dclass=Hello -DartifactId=adts-hello -Dpackage=es.aeat.adts -DgroupId=agencia-tributaria -DgroupIdPat=${{ secrets.GITHUB_TOKEN }}
+              $REPO=${{ env.GITHUB_REPOSITORY }}
+              $REPO=$(echo $REPO | cut -d'/' -f 2)
+              $OWNER = ${{ env.GITHUB_REPOSITORY_OWNER }}
+              mvn archetype:generate -DgroupId=$OWNER -DartifactId=$REPO.$changed -Dversion=1.0 -DartifactId=$REPO.$changed -Dpackage=es.aeat.$REPO.$changed -DgroupId=agencia-tributaria -DgroupIdPat=${{ secrets.GITHUB_TOKEN }}
+              mvn org.apache.maven.plugins:maven-archetype-plugin:3.2.2-SNAPSHOT:generate -Dclass=Hello -DartifactId=adts.$changed -Dpackage=es.aeat.adts.$changed -DgroupId=agencia-tributaria -DgroupIdPat=${{ secrets.GITHUB_TOKEN }}
             done
           }
           if test -z "${{ steps.files.outputs.added    }}"; then echo "No files added"   ; else build "added"    ${{ steps.files.outputs.added    }}; fi
